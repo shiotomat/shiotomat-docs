@@ -3,9 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title></title>
-        
-        <meta name="robots" content="noindex" />
+        <title>powershellでディレクトリ構成図</title>
         
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
@@ -83,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="home.html"><strong aria-hidden="true">1.</strong> Home</a></li><li class="chapter-item expanded "><a href="mdbook/pages.html"><strong aria-hidden="true">2.</strong> GitHub pages でmdbook</a></li><li class="chapter-item expanded "><a href="dirtree.html"><strong aria-hidden="true">3.</strong> powershellでディレクトリ構成図</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="home.html"><strong aria-hidden="true">1.</strong> Home</a></li><li class="chapter-item expanded "><a href="mdbook/pages.html"><strong aria-hidden="true">2.</strong> GitHub pages でmdbook</a></li><li class="chapter-item expanded "><a href="dirtree.html" class="active"><strong aria-hidden="true">3.</strong> powershellでディレクトリ構成図</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -134,200 +132,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#welcome-to-my-docs" id="welcome-to-my-docs">welcome to my docs</a></h1>
-<p>この文書は個人的な知見を載せています。</p>
-<p>不確かな情報が含まれている可能性があります。</p>
-<p>あくまで備忘録のため、損害等の責任は負いかねます。</p>
-<h1><a class="header" href="#github-pages-でmdbook-を使う" id="github-pages-でmdbook-を使う">GitHub Pages でmdbook を使う</a></h1>
-<p>mdbook はGitHub, GitHub Actions を使うことでGitHub Pages でドキュメントを公開できます。個人の技術ブログに使うこともできそうだと感じています。</p>
-<p>ここでは、どのように設定すれば利用できるかの例を記します。</p>
-<h2><a class="header" href="#前提" id="前提">前提</a></h2>
-<ul>
-<li>GitHub アカウントを持っている。</li>
-<li>ローカルで作った原稿をcommit する
-<ul>
-<li>
-<p>ローカルにmdbook がインストールされている(cargo も)</p>
-<p>とはいえ、<code>cargo install mdbook</code>をするだけだし、cargo はrust をインストールすれば入る</p>
-</li>
-<li>
-<p>mdbookで初期化したディレクトリを用意してある</p>
-</li>
-</ul>
-</li>
-<li>ディレクトリ構成は</li>
-</ul>
-<pre><code>  ディレクトリ構成
-  │  book.toml
-  │  
-  ├─.github ← あとで解説します
-  │  ├─actions
-  │  │  └─build
-  │  │          Dockerfile
-  │  │          
-  │  └─workflows
-  │          main.yml
-  │          
-  ├─book
-  │          
-  └─src
-      │  原稿.md
-      └─ SUMMARY.md
-</code></pre>
-<h2><a class="header" href="#全体的な流れ" id="全体的な流れ">全体的な流れ</a></h2>
-<ol>
-<li>GitHub でリポジトリを作る</li>
-<li>GitHub Actions 用の設定ファイルを作る</li>
-<li>デプロイキーの設定</li>
-<li>原稿をアップロードする</li>
-</ol>
-<h2><a class="header" href="#githubでリポジトリを作る" id="githubでリポジトリを作る">GitHubでリポジトリを作る</a></h2>
-<p>pages を使いたいのだからリポジトリを作るのは当たり前だろ！！！と思うかもしれませんが2つほどリポジトリの構成を考えられるのでその説明をします。それは</p>
-<p>原稿をアップロードするリポジトリとpages のリポジトリを</p>
-<ol>
-<li>別にする</li>
-<li>一緒にする</li>
-</ol>
-<p>です。</p>
-<h3><a class="header" href="#別にするメリット" id="別にするメリット">別にするメリット</a></h3>
-<p>✓ 下書きも含め原稿を公開せずに済む</p>
-<p>✓ すでに公開しているpages に組み込める</p>
-<h3><a class="header" href="#一緒にするメリット" id="一緒にするメリット">一緒にするメリット</a></h3>
-<p>✓ ちょっとだけ設定が楽</p>
-<p>✓ 他の人と協力して原稿が作成できる</p>
-<h2><a class="header" href="#github-actions-用の設定ファイルを作る" id="github-actions-用の設定ファイルを作る">GitHub Actions 用の設定ファイルを作る</a></h2>
-<pre><code>  ├─.github
-  │  ├─actions
-  │  │  └─build
-  │  │          Dockerfile
-  │  │          
-  │  └─workflows
-  │          main.yml
-</code></pre>
-<p>これの解説です。
-このディレクトリ構成でDockerfile とmain.yml を作ればいいです。</p>
-<h3><a class="header" href="#dockerfile" id="dockerfile">Dockerfile</a></h3>
-<p>GitHub Actions で動かすDockerの設定です</p>
-<pre><code class="language-dockerfile">FROM rust:latest
-
-RUN cargo install mdbook --no-default-features --features output --vers &quot;^0.3.5&quot;
-
-CMD [&quot;mdbook&quot;, &quot;build&quot;]
-</code></pre>
-<h3><a class="header" href="#mainyml" id="mainyml">main.yml</a></h3>
-<p>main ブランチの<code>src</code>ディレクトリにある<code>.md</code>ファイルと<code>book.toml</code>が変更されたときにactions が動くように設定されています。</p>
-<ul>
-<li>リポジトリ別の場合</li>
-</ul>
-<pre><code class="language-yml">name: CI/CD
-on:
-  push:
-    branches:
-    - main
-    paths:
-    - &quot;src/**.md&quot;
-    - &quot;book.toml&quot;
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Build
-        uses: ./.github/actions/build
-      
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        env:
-          ACTIONS_DEPLOY_KEY: ${{ secrets.鍵の名前 }}
-          external_repository: ユーザ名/リポジトリ名
-          PUBLISH_BRANCH: pages で使うブランチ名
-          PUBLISH_DIR: ./book
-</code></pre>
-<ul>
-<li>リポジトリ一緒の場合</li>
-</ul>
-<pre><code class="language-yml">name: CI/CD
-on:
-  push:
-    branches:
-    - main
-    paths:
-    - &quot;src/**.md&quot;
-    - &quot;book.toml&quot;
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Build
-        uses: ./.github/actions/build
-      
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        env:
-          ACTIONS_DEPLOY_KEY: ${{ secrets.鍵の名前 }}
-          PUBLISH_BRANCH: pages で使うブランチ名
-          PUBLISH_DIR: ./book
-</code></pre>
-<p>ほとんど同じですが、リポジトリ別の場合はexternal_repository を追加して上げる必要があります。</p>
-<h2><a class="header" href="#デプロイキー" id="デプロイキー">デプロイキー</a></h2>
-<p>実は上記の方法のどちらを選択したかによってデプロイキーの設定が少し変わります。</p>
-<ul>
-<li>
-<p>別のリポジトリの場合</p>
-<ul>
-<li>ローカルにおいて<code>ssh-keygen</code>でSSH鍵を作ります。</li>
-</ul>
-<pre><code>ssh-keygen -t rsa -b 4096 -f gh-pages # これだとgh-pagesという名前でSSH鍵ができる
-</code></pre>
-<ul>
-<li>
-<p>公開鍵(gh-pages.pub)をPages用リポジトリの<code>Settings &gt; Deploy keys</code>へ登録</p>
-<ul>
-<li><strong>Allow write access</strong>にチェック✓</li>
-</ul>
-</li>
-<li>
-<p>秘密鍵を原稿を上げるリポジトリの<code>Settings &gt; Secrets</code>へ登録</p>
-</li>
-<li>
-<p>このとき設定した秘密鍵の名前がmain.ymlの<code>ACTIONS_DEPLOY_KEY</code>で使われます。</p>
-</li>
-<li>
-<p>違う名前で登録した場合どうなるかわからないので、同じ名前にすると良いと思います。</p>
-</li>
-</ul>
-</li>
-<li>
-<p>同じリポジトリの場合</p>
-<ul>
-<li>
-<p>アカウントの<code>settings &gt; Developer settings &gt; Personal access tokens</code>でトークンを発行</p>
-<ul>
-<li><strong>repo</strong>にチェック✓</li>
-</ul>
-</li>
-<li>
-<p>リポジトリの<code>Settings &gt; Secrets</code>へ発行したトークンを登録</p>
-<ul>
-<li>このとき設定した秘密鍵の名前がmain.ymlの<code>ACTIONS_DEPLOY_KEY</code>で使われます。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2><a class="header" href="#原稿をアップロードする" id="原稿をアップロードする">原稿をアップロードする</a></h2>
-<p>アップロードするだけです。</p>
-<p>すると自動でpages のリポジトリにbuild してくれます。</p>
-<h2><a class="header" href="#see-also" id="see-also">See also</a></h2>
-<ul>
-<li><a href="https://zenn.dev/404_fof/articles/272f2a88d2d519b1edb3">mdBook&amp;GitHubPagesでのドキュメント公開</a></li>
-</ul>
-<h1><a class="header" href="#powershellでディレクトリ構成図" id="powershellでディレクトリ構成図">powershellでディレクトリ構成図</a></h1>
+                        <h1><a class="header" href="#powershellでディレクトリ構成図" id="powershellでディレクトリ構成図">powershellでディレクトリ構成図</a></h1>
 <h2><a class="header" href="#これだけ" id="これだけ">これだけ！</a></h2>
 <pre><code class="language-powershell">tree [ターゲットのディレクトリ] /f | Out-File -Encoding utf8 [テキストファイルの出力先/名前.txt]
 </code></pre>
@@ -364,6 +169,10 @@ Remove-Item $DESKTOP/treeout.txt
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
+                            <a rel="prev" href="mdbook/pages.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
 
                         
 
@@ -373,6 +182,10 @@ Remove-Item $DESKTOP/treeout.txt
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="mdbook/pages.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
                 
 
                 
@@ -403,14 +216,6 @@ Remove-Item $DESKTOP/treeout.txt
         <!-- Custom JS scripts -->
         
 
-        
-        
-        <script type="text/javascript">
-        window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
-        });
-        </script>
-        
         
 
     </body>
