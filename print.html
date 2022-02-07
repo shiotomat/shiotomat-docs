@@ -333,10 +333,11 @@ jobs:
 <h2><a class="header" href="#これだけ" id="これだけ">これだけ！</a></h2>
 <pre><code class="language-powershell">tree [ターゲットのディレクトリ] /f | Out-File -Encoding utf8 [テキストファイルの出力先/名前.txt]
 </code></pre>
-<p>例</p>
+<h2><a class="header" href="#実行例" id="実行例">実行例</a></h2>
 <pre><code class="language-powershell">tree C:\ /f | Out-File -Encoding utf8 C:\out.txt
 </code></pre>
-<p>めちゃくちゃ長くなるのでこれを実際に実行するのはおすすめしません。</p>
+<h2><a class="header" href="#現実的な実行例" id="現実的な実行例">(現実的な)実行例</a></h2>
+<p>めちゃくちゃ長くなるので上記を実際に実行するのはおすすめしません。</p>
 <p>以下を試してみてください。</p>
 <pre><code class="language-powershell"># デスクトップへ移動
 $DESKTOP = [Environment]::GetFolderPath(&quot;Desktop&quot;) # デスクトップのパス
@@ -355,9 +356,12 @@ Remove-Item $DESKTOP/treetest -Recurse
 # 図を出す
 start treeout.txt
 </code></pre>
-<ul>
-<li>実行結果</li>
-</ul>
+<p>treeout.txt を消すには、デスクトップにあるこのファイルを手で消すか、続けて</p>
+<pre><code class="language-powershell"># treeout.txtを消す
+Remove-Item $DESKTOP/treeout.txt
+</code></pre>
+<p>を実行してください。</p>
+<h3><a class="header" href="#実行結果" id="実行結果">実行結果</a></h3>
 <pre><code class="language-txt">フォルダー パスの一覧:  ボリューム Windows
 ボリューム シリアル番号は 000000BC xxx:xxxx です
 C:\USERS\USERNAME\DESKTOP\TREETEST
@@ -366,11 +370,6 @@ C:\USERS\USERNAME\DESKTOP\TREETEST
 └─test
         test2.txt
 </code></pre>
-<p>treeout.txt を消すには、デスクトップにあるこのファイルを手で消すか、続けて</p>
-<pre><code class="language-powershell"># treeout.txtを消す
-Remove-Item $DESKTOP/treeout.txt
-</code></pre>
-<p>を実行してください。</p>
 
                     </main>
 
