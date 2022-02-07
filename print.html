@@ -355,8 +355,19 @@ Remove-Item $DESKTOP/treetest -Recurse
 # 図を出す
 start treeout.txt
 </code></pre>
+<ul>
+<li>実行結果</li>
+</ul>
+<pre><code class="language-txt">フォルダー パスの一覧:  ボリューム Windows
+ボリューム シリアル番号は 000000BC xxx:xxxx です
+C:\USERS\USERNAME\DESKTOP\TREETEST
+│  test1.txt
+│  
+└─test
+        test2.txt
+</code></pre>
 <p>treeout.txt を消すには、デスクトップにあるこのファイルを手で消すか、続けて</p>
-<pre><code class="language-powershell"># 図のtxtを消す
+<pre><code class="language-powershell"># treeout.txtを消す
 Remove-Item $DESKTOP/treeout.txt
 </code></pre>
 <p>を実行してください。</p>
