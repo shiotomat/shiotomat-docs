@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="home.html"><strong aria-hidden="true">1.</strong> Home</a></li><li class="chapter-item expanded "><a href="mdbook/pages.html"><strong aria-hidden="true">2.</strong> GitHub pages でmdbook</a></li><li class="chapter-item expanded "><a href="dirtree.html"><strong aria-hidden="true">3.</strong> powershellでディレクトリ構成図</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="home.html"><strong aria-hidden="true">1.</strong> Home</a></li><li class="chapter-item expanded "><a href="mdbook/pages.html"><strong aria-hidden="true">2.</strong> GitHub pages でmdbook</a></li><li class="chapter-item expanded "><a href="dirtree.html"><strong aria-hidden="true">3.</strong> powershellでディレクトリ構成図</a></li><li class="chapter-item expanded "><a href="openexplorer.html"><strong aria-hidden="true">4.</strong> ターミナルでいま開いているディレクトリをエクスプローラーを開く</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -370,6 +370,22 @@ C:\USERS\USERNAME\DESKTOP\TREETEST
 └─test
         test2.txt
 </code></pre>
+<h1><a class="header" href="#ターミナルでいま開いているディレクトリをexplorerで開く" id="ターミナルでいま開いているディレクトリをexplorerで開く">ターミナルでいま開いているディレクトリをexplorerで開く</a></h1>
+<h2><a class="header" href="#簡単" id="簡単">簡単！</a></h2>
+<h3><a class="header" href="#powershell-cmd" id="powershell-cmd">powershell, cmd</a></h3>
+<pre><code class="language-powershell">start .
+</code></pre>
+<p>あるいは</p>
+<pre><code class="language-powershell">explorer .
+</code></pre>
+<h3><a class="header" href="#bash-試していないです" id="bash-試していないです">bash (試していないです)</a></h3>
+<pre><code class="language-bash">xdg-open .
+</code></pre>
+<p>これで開くらしいです。</p>
+<h2><a class="header" href="#解説" id="解説">解説</a></h2>
+<pre><code class="language-powershell">start [パス]
+</code></pre>
+<p>でパスのディレクトリをexplorerで開けます。</p>
 
                     </main>
 
